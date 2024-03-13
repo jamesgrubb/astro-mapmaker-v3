@@ -75,10 +75,11 @@ import paper from 'paper';
 					})
 					
 					dot.scale(1 - color.gray)
-					
+					dots.addChild(dot)
 					console.log("🚀 ~ mapClone.on ~ dot:", dot)
 				}
 			};
+			dots.bounds = paper.view.bounds
 	})
 		}
 	})
