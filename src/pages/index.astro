@@ -22,7 +22,7 @@
 		</div>
 		<div class="map-group">
 			<h2>Map</h2>
-		<div style="height: 500px; aspect-ratio: 2/1" id="map"></div>
+		<div style="width: 800px; height:505.62px;" id="map"></div>
 		</div>	
 	</div>
 	</body>
@@ -36,6 +36,7 @@
 	.wrapper {
 		display: grid;
 		grid-template-columns: auto auto-fit(minmax(300px, 1fr));
+		grid-auto-rows: auto;
 		grit-autoflow: column;
 		padding: var(--space-2);
 		& .header-group{
@@ -61,15 +62,15 @@
 import paper from 'paper';
 	map.on('load', () => {
 		paper.setup('paper');
-		
+		map.resize();
 		if(map.isStyleLoaded()){
 			// draw();
 			const mapClone = new paper.Raster(map.getCanvas().toDataURL());
 			mapClone.visible = true;
-			const width = 120;
+			const width = 260;
 			const height = width / 2;
-			const gridSize = 6;
-			const spacing = 0.7;
+			const gridSize = 1;
+			const spacing = 0.8;
 		mapClone.on('load',()=>{			
 			
 			mapClone.size = new paper.Size(width,height);
@@ -81,7 +82,7 @@ import paper from 'paper';
 			const bg = new paper.Path.Rectangle({
 			size: new paper.Size(paper.view.size),
 			// position: new paper.Point(0,0),
-			fillColor: new paper.Color('hsl(0,0%,50%)'),
+			fillColor: new paper.Color('hsl(0,0%,100%)'),
 			
 		});
 			
@@ -115,26 +116,18 @@ import paper from 'paper';
 				const btn = document.createElement('button');
 				btn.textContent = 'Download';
 				btn.addEventListener('click', ()=>{
-					const svg = paper.project.exportSVG({
-						asString: true,
-						bounds: 'view',
-						matrix: new paper.Matrix(),
-						precision: 5,
-						matchShapes: true,
-						limit: Infinity,
-					})
-					const blob = new Blob([svg as BlobPart], {type: 'image/svg+xml'});
-					const url = URL.createObjectURL(blob);
-					const a = document.createElement('a');
+					paper.view.element.toBlob((blob)=>{
+						const png = new Blob([blob as BlobPart], {type: 'image/png'});
+						const url = URL.createObjectURL(png);
+						const a = document.createElement('a');
 					a.href = url;
 					a.download = name;
 					a.click();
 					URL.revokeObjectURL(url);
 					a.remove()
-					
+					});
 				});
 				btnWrapper?.appendChild(btn)
-
 			}
 	})
 		}

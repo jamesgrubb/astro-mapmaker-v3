@@ -7,10 +7,12 @@ const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/makingthings/cltotxevf001a01pngsz9ayiw',
     center:[0 , 0],
-    zoom: 0.6,
-    interactive: false,        
+    zoom: 0,
+    interactive: false,    
+    renderWorldCopies: false    
 },
 )
+
 
 
 // var map = new mapboxgl.Map({
