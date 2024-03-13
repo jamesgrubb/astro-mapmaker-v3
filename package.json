@@ -10,8 +10,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.5.2",
     "@astrojs/check": "^0.5.8",
+    "@types/mapbox-gl": "^3.1.0",
+    "astro": "^4.5.2",
+    "mapbox-gl": "^3.2.0",
+    "open-props": "^1.6.21",
+    "paper": "^0.12.17",
+    "postcss-jit-props": "^1.0.14",
     "typescript": "^5.4.2"
   }
 }
