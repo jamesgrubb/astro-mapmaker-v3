@@ -53,6 +53,7 @@
 import paper from 'paper';
 	map.on('load', () => {
 		paper.setup('paper');
+		
 		if(map.isStyleLoaded()){
 			// draw();
 			const mapClone = new paper.Raster(map.getCanvas().toDataURL());
@@ -62,9 +63,18 @@ import paper from 'paper';
 			const gridSize = 6;
 			const spacing = 0.7;
 		mapClone.on('load',()=>{			
+			
 			mapClone.size = new paper.Size(width,height);
 			mapClone.bounds.topLeft = new paper.Point(0,0);
 			const dots = new paper.Group()
+			const bgLayer = new paper.Layer()
+			const bg = new paper.Path.Rectangle({
+			size: new paper.Size(paper.view.size),
+			// position: new paper.Point(0,0),
+			fillColor: new paper.Color('hsl(0,0%,950%)'),
+			
+		});
+			bgLayer.addChild(bg);
 			for(let x = 0; x < mapClone.width; x++){
 				for(let y = 0; y < mapClone.height; y++){
 					const color = mapClone.getPixel(x,y);
@@ -79,6 +89,7 @@ import paper from 'paper';
 					console.log("🚀 ~ mapClone.on ~ dot:", dot)
 				}
 			};
+			bgLayer.sendToBack();
 			dots.bounds = paper.view.bounds
 	})
 		}
