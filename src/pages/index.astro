@@ -11,6 +11,87 @@
 		<title>Astro</title>
 	</head>
 	<body>
+		<div class="wrapper">
+		<header>
 		<h1>Astro</h1>
+		</header>
+		<div class="paper-group">
+			<h2>Paper</h2>
+			<canvas class="paper" id="paper" data-resize="true"></canvas>
+		</div>
+		<div class="map-group">
+			<h2>Map</h2>
+		<div style="height: 500px; aspect-ratio: 2/1" id="map"></div>
+		</div>	
+	</div>
 	</body>
 </html>
+
+<style>
+	body{
+		font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		color: oklch(100deg 20% 20%);
+	}
+	.wrapper {
+		display: grid;
+		grid-template-columns: auto auto-fit(minmax(300px, 1fr));
+		grit-autoflow: column;
+		padding: var(--space-2);
+		&:is(.paper-group, .map-group){
+			inline-size: min(100%,600px);
+		}
+	}
+	.paper{
+		inline-size:100%;
+		aspect-ratio: 2/1;
+	}
+</style>
+
+<script>
+	import 'mapbox-gl/dist/mapbox-gl.css';
+	import map from '../scripts/map.ts';
+import paper from 'paper';
+	map.on('load', () => {
+		paper.setup('paper');
+		if(map.isStyleLoaded()){
+			// draw();
+			const mapClone = new paper.Raster(map.getCanvas().toDataURL());
+			mapClone.visible = false;
+			const width = 120;
+			const height = width / 2;
+			const gridSize = 6;
+			const spacing = 0.7;
+		mapClone.on('load',()=>{			
+			mapClone.size = new paper.Size(width,height);
+			mapClone.bounds.topLeft = new paper.Point(0,0);
+			const dots = new paper.Group()
+			for(let x = 0; x < mapClone.width; x++){
+				for(let y = 0; y < mapClone.height; y++){
+					const color = mapClone.getPixel(x,y);
+					const dot = new paper.Path.Circle({
+						center: new paper.Point(x,y).multiply(gridSize),
+						radius: gridSize / 2 / spacing,
+						fillColor: new paper.Color('black')
+					})
+					
+					dot.scale(1 - color.gray)
+					
+					console.log("🚀 ~ mapClone.on ~ dot:", dot)
+				}
+			};
+	})
+		}
+	})
+
+	function draw(){
+		const mapClone = new paper.Raster(map.getCanvas().toDataURL());
+		mapClone.size = new paper.Size(120,60);
+		mapClone.bounds.topLeft = new paper.Point(0,0);
+		new paper.Path.Circle({
+			center: paper.view.center,
+			radius: 20,
+			fillColor: new paper.Color(1, 0, 0, 0.5),
+	})
+}
+
+</script>

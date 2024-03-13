@@ -6,9 +6,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibWFraW5ndGhpbmdzIiwiYSI6ImNsdGc1N205MDBmMHgya
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/makingthings/cltotxevf001a01pngsz9ayiw',
-    center:[-74.5 , 40],
-    zoom: 9,
+    center:[0 , 0],
+    zoom: 0.6,
     interactive: false,
 })
+
+
 
 export default map;

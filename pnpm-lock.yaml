@@ -11,6 +11,9 @@ dependencies:
   '@types/mapbox-gl':
     specifier: ^3.1.0
     version: 3.1.0
+  '@types/paper':
+    specifier: ^0.12.3
+    version: 0.12.3
   astro:
     specifier: ^4.5.2
     version: 4.5.2(typescript@5.4.2)
@@ -862,6 +865,13 @@ packages:
     resolution: {integrity: sha512-ABoYdNQ/kBSsLvZAekMhIPMQ3YUZvavStpKYs7BjLLuKVmIMA0LUgZ7b54zzuWJRbHF80v1cNf4r90Vd6eMQDg==}
     dependencies:
       '@types/unist': 2.0.10
+    dev: false
+
+  /@types/paper@0.12.3:
+    resolution: {integrity: sha512-kU00AqWZcpb6b5Fnnrilurk3NfdkuyZXG4v+L9GF5+6zAfTYIThXDcieCtjdHFl/HlLfqZr5Zbf+tKvGX3FyFw==}
+    deprecated: This is a stub types definition. paper provides its own type definitions, so you do not need this installed.
+    dependencies:
+      paper: 0.12.17
     dev: false
 
   /@types/unist@2.0.10:
