@@ -63,35 +63,38 @@ import paper from 'paper';
 	map.on('load', () => {
 		paper.setup('paper');
 		map.resize();
-		if(map.isStyleLoaded()){
+		
 			// draw();
 			const mapClone = new paper.Raster(map.getCanvas().toDataURL());
-			mapClone.visible = true;
 			const width = 260;
 			const height = width / 2;
 			const gridSize = 1;
 			const spacing = 0.8;
-		mapClone.on('load',()=>{			
+			mapClone.visible = false;
 			
+			mapClone.on('load',()=>{			
 			mapClone.size = new paper.Size(width,height);
 			mapClone.bounds.topLeft = new paper.Point(0,0);
 			const dots = new paper.Group()
 			const bgLayer = new paper.Layer()
 			const cloneLayer = new paper.Layer();
+			bgLayer.visible = false	
+			// cloneLayer.addChild(mask);
 			cloneLayer.addChild(mapClone);
+			cloneLayer.visible = false;
 			const bg = new paper.Path.Rectangle({
-			size: new paper.Size(paper.view.size),
-			// position: new paper.Point(0,0),
-			fillColor: new paper.Color('hsl(0,0%,100%)'),
+				size: new paper.Size(paper.view.size),
+				// position: new paper.Point(0,0),
+				fillColor: new paper.Color('hsl(0,0%,100%)'),
+				
+			});
 			
-		});
 			
-		bgLayer.addChild(cloneLayer);
-		bgLayer.addChild(bg);
-			bgLayer.sendToBack();
-
+			cloneLayer.visible = false
+			bgLayer.visible = false
 			for(let x = 0; x < mapClone.width; x++){
 				for(let y = 0; y < mapClone.height; y++){
+					// y + 10;
 					const color = mapClone.getPixel(x,y);
 					const square = new paper.Path.Rectangle({
 						size: new paper.Size(gridSize / 1.5 / spacing,gridSize / 1.5 / spacing),
@@ -103,16 +106,25 @@ import paper from 'paper';
 						radius: gridSize / 2 / spacing,
 						fillColor: new paper.Color('black')
 					})
+					if(color.gray === 0){
+						square.scale(0.1)
+						dot.scale(0)
+					}
+					if(color.gray > 1){
+						square.scale(5)
+						dot.scale(0)
+					}
 					square.scale(1 - color.gray + 0.1)
 					dot.scale(1 - color.gray + 0.1)
 					// dots.addChild(dot)
 					dots.addChild(square)		
-					console.log("🚀 ~ mapClone.on ~ dot:", dot)
+					
 				}
 			};
 			// dots.addChild(bgLayer)
 			
 			bgLayer.sendToBack();
+			bgLayer.visible = false
 			dots.bounds = paper.view.bounds
 			if(paper.view.update()){
 				console.log("paper updated")
@@ -136,19 +148,11 @@ import paper from 'paper';
 				btnWrapper?.appendChild(btn)
 			}
 	})
-		}
+		
+		const layers = map.getStyle().layers;
+		console.log("🚀 ~ map.on ~ layers:", layers)
 	})
 
-	function draw(){
-		const mapClone = new paper.Raster(map.getCanvas().toDataURL());
-		mapClone.size = new paper.Size(120,60);
-		mapClone.bounds.topLeft = new paper.Point(0,0);
-		new paper.Path.Circle({
-			center: paper.view.center,
-			radius: 20,
-			fillColor: new paper.Color(1, 0, 0, 0.5),
-	})
-}
 
 function downloadSVG(svg:SVGAElement,name:string){
 	const svgString = new XMLSerializer().serializeToString(svg);
