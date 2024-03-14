@@ -66,9 +66,9 @@ import paper from 'paper';
 		
 			// draw();
 			const mapClone = new paper.Raster(map.getCanvas().toDataURL());
-			const width = 260;
+			const width = 240;
 			const height = width / 2;
-			const gridSize = 1;
+			const gridSize = 100;
 			const spacing = 0.8;
 			mapClone.visible = false;
 			
@@ -97,7 +97,7 @@ import paper from 'paper';
 					// y + 10;
 					const color = mapClone.getPixel(x,y);
 					const square = new paper.Path.Rectangle({
-						size: new paper.Size(gridSize / 1.5 / spacing,gridSize / 1.5 / spacing),
+						size: new paper.Size(gridSize / 1 / spacing,gridSize / 1 / spacing),
 						position: new paper.Point(x,y).multiply(gridSize),
 						fillColor: new paper.Color('#053751')
 					})					
@@ -110,8 +110,8 @@ import paper from 'paper';
 						square.scale(0.1)
 						dot.scale(0)
 					}
-					if(color.gray > 1){
-						square.scale(5)
+					if(color.gray >= 1){
+						square.scale(0.5)
 						dot.scale(0)
 					}
 					square.scale(1 - color.gray + 0.1)
